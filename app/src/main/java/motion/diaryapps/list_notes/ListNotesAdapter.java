@@ -63,7 +63,7 @@ public class ListNotesAdapter extends RecyclerView.Adapter<ListNotesAdapter.View
 
     @Override
     public int getItemCount() {
-        // TODO: 4/12/19 -> ganti return menjadi panjang list
+        // TODO: 4/12/19 -> ganti 0 pada return menjadi panjang list
         // hint : gunakan method xxxx.size()
         return 0;
     }

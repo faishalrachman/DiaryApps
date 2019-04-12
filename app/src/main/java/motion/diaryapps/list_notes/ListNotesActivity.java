@@ -31,10 +31,8 @@ public class ListNotesActivity extends AppCompatActivity {
         initToolbar();
 
         // TODO: 4/12/19 panggil initRecyclerView() disini
-        initRecyclerView();
 
         // TODO: 4/12/19 panggil initDummy() disini
-        initDummy();
     }
 
     public void initToolbar(){
