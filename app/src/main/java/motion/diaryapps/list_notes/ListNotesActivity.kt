@@ -5,11 +5,19 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_list_notes.*
 import motion.diaryapps.R
+import motion.diaryapps.api.ApiClient
+import motion.diaryapps.api.ApiInterface
+import motion.diaryapps.api.table.TableDiary
 import motion.diaryapps.create_notes.CreateNotesActivity
+import motion.diaryapps.utils.BASE_URL
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class ListNotesActivity : AppCompatActivity() {
@@ -26,7 +34,8 @@ class ListNotesActivity : AppCompatActivity() {
         initToolbar()
 
         initRecycler()
-        initDummy()
+//        initDummy()
+        loadData()
     }
 
     fun initToolbar() {
@@ -52,6 +61,33 @@ class ListNotesActivity : AppCompatActivity() {
         listData.add(ListNotesModel("", "", "", ""))
         listData.add(ListNotesModel("", "", "", ""))
         recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    private fun loadData(){
+        val client = ApiClient().getClient(BASE_URL)
+        val api = client?.create(ApiInterface::class.java)
+        val call = api?.loadAll()
+        call?.enqueue(object : Callback<List<TableDiary>> {
+
+            override fun onFailure(call: Call<List<TableDiary>>, t: Throwable) {
+                Log.e("Error", t.message)
+            }
+
+            override fun onResponse(call: Call<List<TableDiary>>, response: Response<List<TableDiary>>) {
+                listData.clear()
+                response.body()?.forEach {
+                    listData.add(ListNotesModel(
+                            it.id!!,
+                            it.title!!,
+                            it.img_url?:"",
+                            it.entry_date!!
+                    ))
+                }
+                recyclerView.adapter?.notifyDataSetChanged()
+            }
+
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
