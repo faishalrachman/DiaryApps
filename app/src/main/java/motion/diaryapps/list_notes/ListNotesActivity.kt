@@ -1,6 +1,7 @@
 package motion.diaryapps.list_notes
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,11 +14,6 @@ import motion.diaryapps.create_notes.CreateNotesActivity
 import java.util.*
 
 class ListNotesActivity : AppCompatActivity() {
-
-    private val mLists = ArrayList<ListNotesModel>()
-    private var mRecyclerView: RecyclerView? = null
-    private var mAdapter: RecyclerView.Adapter<*>? = null
-    private var mLayoutManager: RecyclerView.LayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +44,13 @@ class ListNotesActivity : AppCompatActivity() {
     }
 
     private fun initDummy() {
-        listData.add(ListNotesModel("", "", "", ""))
-        listData.add(ListNotesModel("", "", "", ""))
-        listData.add(ListNotesModel("", "", "", ""))
-        recyclerView.adapter?.notifyDataSetChanged()
+        Handler().postDelayed({
+            listData.add(ListNotesModel("1", "Tes1", "https://kilo943.com/wp-content/uploads/2018/04/ded-logo.jpg", ""))
+            listData.add(ListNotesModel("2", "Tes2", "https://kilo943.com/wp-content/uploads/2018/04/ded-logo.jpg", ""))
+            listData.add(ListNotesModel("3", "Tes3", "https://kilo943.com/wp-content/uploads/2018/04/ded-logo.jpg", ""))
+            recyclerView.adapter?.notifyDataSetChanged()
+        }, 2000)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -17,6 +17,7 @@ import android.widget.Toast
 import motion.diaryapps.R
 import motion.diaryapps.create_notes.CreateNotesActivity
 import motion.diaryapps.dao.DiaryDao
+import motion.diaryapps.list_notes.ListNotesModel
 import motion.diaryapps.utils.Tools
 
 class DetailNotesActivity : AppCompatActivity() {
@@ -32,21 +33,13 @@ class DetailNotesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_notes)
+        val extras = intent.extras!!
 
-        mData = setDummy()
+        val detail = ListNotesModel.fromJSON(extras.getString(KEY_DATA)!!)
 
         initToolbar()
         initComponent()
-        setData(mData)
-    }
-
-    fun setDummy(): DiaryDao {
-        return DiaryDao(
-                "1",
-                "Lost Paradise",
-                "Lorem ipsum simdolor amet",
-                "https://t-ec.bstatic.com/images/hotel/max1024x768/136/136201154.jpg",
-                Tools.currentDateISO8601)
+        setData(DiaryDao(detail.id,detail.title,"",detail.image_url,""))
     }
 
     fun setData(mData: DiaryDao?) {
@@ -111,11 +104,11 @@ class DetailNotesActivity : AppCompatActivity() {
 
     companion object {
         //    constant value
-        private val KEY_ID = "id"
+        private val KEY_DATA = "data"
 
-        fun startActivity(context: Context, id : String){
+        fun startActivity(context: Context, detail : String){
             var intent = Intent(context,DetailNotesActivity::class.java)
-            intent.putExtra(KEY_ID,id)
+            intent.putExtra(KEY_DATA,detail)
             context.startActivity(intent)
         }
     }

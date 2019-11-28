@@ -31,6 +31,7 @@ class ListNotesAdapter(private val children : List<ListNotesModel>)
 
         holder.initData(child)
         holder.initListener(context,child)
+
     }
 
 
@@ -43,10 +44,10 @@ class ListNotesAdapter(private val children : List<ListNotesModel>)
         }
 
         fun initListener(context : Context, child : ListNotesModel){
-            // TODO : Initiate Listener Here
+
             itemView.setOnClickListener{
-                // TODO : Do Something after item click
-                DetailNotesActivity.startActivity(context,child.id)
+
+                DetailNotesActivity.startActivity(context,child.asJSON())
             }
         }
     }
